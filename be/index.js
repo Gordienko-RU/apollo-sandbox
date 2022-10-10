@@ -1,4 +1,4 @@
-const { ApolloServer, gql } = require('apollo-server');
+const { ApolloServer, gql } = require("apollo-server");
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed against
@@ -21,24 +21,24 @@ const typeDefs = gql`
 
 const books = [
   {
-    title: 'The Awakening',
-    author: 'Kate Chopin',
-    birthDate: '12.32.5323',
+    title: "the awakening",
+    author: "Kate Chopin",
+    birthDate: "12.32.5323",
   },
   {
-    title: 'City of Glass',
-    author: 'Paul Auster',
-    birthDate: '23.53.2345',
+    title: "city of glass",
+    author: "Paul Auster",
+    birthDate: "23.53.2345",
   },
   {
-    title: 'City of Grass',
-    author: 'Paul Auster',
-    birthDate: '12.34.5342',
+    title: "city of grass",
+    author: "Paul Auster",
+    birthDate: "12.34.5342",
   },
   {
-    title: 'City of Wood',
-    author: 'Paul Auster',
-    birthDate: '12.34.5342',
+    title: "city of wood",
+    author: "Paul Auster",
+    birthDate: "12.34.5342",
   },
 ];
 

@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useQuery, gql, useLazyQuery, useMutation } from '@apollo/client';
+import { useState } from "react";
+import { useQuery, gql, useLazyQuery, useMutation } from "@apollo/client";
 
 const COMMON_BOOK_FIELDS = gql`
   fragment commonBookFields on Book {
@@ -26,17 +26,25 @@ function Books({ onClick }) {
   if (error) return <p>Error :(</p>;
 
   return data.books.map(({ title }) => (
-    <div key={title} onClick={() => { onClick(title)} }>
+    <div
+      key={title}
+      onClick={() => {
+        onClick(title);
+      }}
+    >
       <h3>{title}</h3>
     </div>
   ));
 }
 
 const GET_BOOK = gql`
+  ${COMMON_BOOK_FIELDS}
   query getBook($title: String!) {
     books(title: $title) {
+      ...commonBookFields
       author
       birthDate
+      bookId @client
     }
   }
 `;
@@ -48,7 +56,7 @@ function BookDescription({ title }) {
 
   if (!title) {
     return null;
-  } else if(!data && !loading) {
+  } else if (!data && !loading) {
     return <button onClick={getBook}>Get info</button>;
   }
 
@@ -56,10 +64,11 @@ function BookDescription({ title }) {
   if (error) return <p>Error :(</p>;
 
   return (
-    <div key={'desc'}>
+    <div key={"desc"}>
       <h3>Description:</h3>
       <h3>{data.books[0].author}</h3>
       <h3>{data.books[0].birthDate}</h3>
+      <h3>{data.books[0].bookId}</h3>
     </div>
   );
 }
@@ -70,21 +79,26 @@ const CREATE_BOOK = gql`
     addBook(title: $title, author: $author, birthDate: $birthDate) {
       ...commonBookFields
     }
-}`;
+  }
+`;
 
 const AddBookButton = () => {
   const [addBook] = useMutation(CREATE_BOOK, {
-    refetchQueries: [
-      'getBooks',
-    ],
+    refetchQueries: ["getBooks"],
   });
 
   const handleBookAdding = () => {
-    addBook({ variables: { title: 'new book', author: 'new author', birthDate: '24.34.2004'}});
+    addBook({
+      variables: {
+        title: "new book",
+        author: "new author",
+        birthDate: "24.34.2004",
+      },
+    });
   };
 
   return <button onClick={handleBookAdding}>Add book</button>;
-}
+};
 
 export default function App() {
   const [selectedTitle, setSelectedTitle] = useState(null);
